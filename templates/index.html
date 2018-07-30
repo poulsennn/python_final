@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BMI calculator</title>
+</head>
+<body>
+    <form action="{{ url_for('index')}}" method="post">
+        <input type="text" placeholder="Height (m)" name="height">
+        <input type="text" placeholder="Weight (kg)" name="weight">
+        <button>Calculate</button>
+    </form>
+    <ul>
+      Previous calculations:
+      {% for calculation in calculations %}
+        <li>{{ calculation }}</li>
+      {% endfor %}
+    </ul>
+</body>
+</html>
