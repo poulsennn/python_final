@@ -1,20 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>BMI calculator</title>
+    <!--Title that shows in the browser tab head-->
+    <title>Bodyfat calculator</title>
+    <!--Bootstrap link. Adds style to normal HTML-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
+
 <body>
-    <form action="{{ url_for('index')}}" method="post">
-        <input type="text" placeholder="Height (m)" name="height">
-        <input type="text" placeholder="Weight (kg)" name="weight">
-        <button>Calculate</button>
-    </form>
-    <ul>
-      Previous calculations:
-      {% for calculation in calculations %}
-        <li>{{ calculation }}</li>
-      {% endfor %}
-    </ul>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3">
+        <h1>New entry</h1>
+        <form action="{{ url_for('index')}}" method="post">
+            <div class="form-group row">
+              <label for="date" class="col-md-4 col-form-label">Date</label>
+              <div class="col-md-8">
+                <input type="date" class="form-control" id="date" placeholder="Date" name="date">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="sex" class="col-md-4 col-form-label">Sex</label>
+              <div class="col-md-8">
+                <select name="sex" id="sex"class="form-control" size="2">
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="age" class="col-md-4 col-form-label">Age</label>
+              <div class="col-md-8">
+                <input type="number" id="age" class="form-control" placeholder="years" name="age">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="weight" class="col-md-4 col-form-label">Weight</label>
+              <div class="col-md-8">
+                <input type="text" id="weight" class="form-control" placeholder="kg" name="weight">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="pec" class="col-md-4 col-form-label">Pectoralis</label>
+              <div class="col-md-8">
+                <input type="text" id="pec" class="form-control" placeholder="mm" name="pectoralis">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="tri" class="col-md-4 col-form-label">Triceps</label>
+              <div class="col-md-8">
+                <input type="text" id="tri" class="form-control" placeholder="mm" name="triceps">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="sub" class="col-md-4 col-form-label">Subscapular</label>
+              <div class="col-md-8">
+                <input type="text" id="sub" class="form-control" placeholder="mm" name="subscapular">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="axi" class="col-md-4 col-form-label">Axillary</label>
+              <div class="col-md-8">
+                <input type="text" id="axi" class="form-control" placeholder="mm" name="axillary">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="sup" class="col-md-4 col-form-label">Suprailliac</label>
+              <div class="col-md-8">
+                <input type="text" id="sup" class="form-control" placeholder="mm" name="suprailliac">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="abd" class="col-md-4 col-form-label">Abdomen</label>
+              <div class="col-md-8">
+                <input type="text" id="abd" class="form-control" placeholder="mm" name="abdomen">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="thi" class="col-md-4 col-form-label">Thigh</label>
+              <div class="col-md-8">
+                <input type="text" id="thi" class="form-control" placeholder="mm" name="thigh">
+              </div>
+            </div>
+            <button class="btn btn-info">Calculate</button>
+        </form>
+      </div>
+      <div class="col-lg-9">
+        <h1>Results</h1>
+        <div class="table-responsive-xl">
+          <table class="table table-sm table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Sex</th>
+                <th scope="col">Age</th>
+                <th scope="col">Weight</th>
+                <th scope="col">Pectoralis</th>
+                <th scope="col">Triceps</th>
+                <th scope="col">Subscapular</th>
+                <th scope="col">Axillary</th>
+                <th scope="col">Suprailliac</th>
+                <th scope="col">Abdomen</th>
+                <th scope="col">Thigh</th>
+                <th scope="col">Sum</th>
+                <th scope="col">Bodyfat</th>
+                <th scope="col">Fat mass</th>
+                <th scope="col">Fat free mass</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for calculation in calculations[::-1] %}
+                <tr>
+                  <td>{{ calculation[0] }}</td>
+                  <td>{{ calculation[1] }}</td>
+                  <td>{{ calculation[2] }}</td>
+                  <td>{{ calculation[3] }} kg</td>
+                  <td>{{ calculation[4] }} mm</td>
+                  <td>{{ calculation[5] }} mm</td>
+                  <td>{{ calculation[6] }} mm</td>
+                  <td>{{ calculation[7] }} mm</td>
+                  <td>{{ calculation[8] }} mm</td>
+                  <td>{{ calculation[9] }} mm</td>
+                  <td>{{ calculation[10] }} mm</td>
+                  <td>{{ calculation[11] }} mm</td>
+                  <td>{{ calculation[12] }} %</td>
+                  <td>{{ calculation[13] }} kg</td>
+                  <td>{{ calculation[14] }} kg</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
