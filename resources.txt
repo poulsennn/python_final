@@ -1,0 +1,5 @@
+Resources:
+flask.pocoo.org
+pygal.org
+w3schools.com
+getbootstrap.com
