@@ -3,28 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <!--Title that shows in the browser tab head-->
+<!--Title that shows in the browser tab head-->
     <title>Bodyfat calculator</title>
-    <!--Bootstrap link. Adds style to normal HTML-->
+<!--Icon that shows in browser tab head-->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<!--Bootstrap link. Adds style to normal HTML-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
+<!--Content-->
 <body>
   <div class="container-fluid">
     <div class="row">
+<!--Form for new entry, left side of website on large screen-->
       <div class="col-lg-3">
-        <h1>New entry</h1>
-        <form action="{{ url_for('index')}}" method="post">
+        <h2>New entry</h2>
+        <form action="{{ url_for('index')}}" method="post" autocomplete="off">
             <div class="form-group row">
               <label for="date" class="col-md-4 col-form-label">Date</label>
               <div class="col-md-8">
-                <input type="date" class="form-control" id="date" placeholder="Date" name="date">
+                <input type="date" class="form-control" id="date" placeholder="Date" name="date" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="sex" class="col-md-4 col-form-label">Sex</label>
               <div class="col-md-8">
-                <select name="sex" id="sex"class="form-control" size="2">
+                <select name="sex" id="sex"class="form-control" size="2" required>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
                 </select>
@@ -33,62 +37,79 @@
             <div class="form-group row">
               <label for="age" class="col-md-4 col-form-label">Age</label>
               <div class="col-md-8">
-                <input type="number" id="age" class="form-control" placeholder="years" name="age">
+                <input type="number" id="age" class="form-control" placeholder="years" name="age" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="weight" class="col-md-4 col-form-label">Weight</label>
               <div class="col-md-8">
-                <input type="text" id="weight" class="form-control" placeholder="kg" name="weight">
+                <input type="text" id="weight" class="form-control" placeholder="kg" name="weight" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="pec" class="col-md-4 col-form-label">Pectoralis</label>
               <div class="col-md-8">
-                <input type="text" id="pec" class="form-control" placeholder="mm" name="pectoralis">
+                <input type="text" id="pec" class="form-control" placeholder="mm" name="pectoralis" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="tri" class="col-md-4 col-form-label">Triceps</label>
               <div class="col-md-8">
-                <input type="text" id="tri" class="form-control" placeholder="mm" name="triceps">
+                <input type="text" id="tri" class="form-control" placeholder="mm" name="triceps" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="sub" class="col-md-4 col-form-label">Subscapular</label>
               <div class="col-md-8">
-                <input type="text" id="sub" class="form-control" placeholder="mm" name="subscapular">
+                <input type="text" id="sub" class="form-control" placeholder="mm" name="subscapular" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="axi" class="col-md-4 col-form-label">Axillary</label>
               <div class="col-md-8">
-                <input type="text" id="axi" class="form-control" placeholder="mm" name="axillary">
+                <input type="text" id="axi" class="form-control" placeholder="mm" name="axillary" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="sup" class="col-md-4 col-form-label">Suprailliac</label>
               <div class="col-md-8">
-                <input type="text" id="sup" class="form-control" placeholder="mm" name="suprailliac">
+                <input type="text" id="sup" class="form-control" placeholder="mm" name="suprailliac" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="abd" class="col-md-4 col-form-label">Abdomen</label>
               <div class="col-md-8">
-                <input type="text" id="abd" class="form-control" placeholder="mm" name="abdomen">
+                <input type="text" id="abd" class="form-control" placeholder="mm" name="abdomen" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="thi" class="col-md-4 col-form-label">Thigh</label>
               <div class="col-md-8">
-                <input type="text" id="thi" class="form-control" placeholder="mm" name="thigh">
+                <input type="text" id="thi" class="form-control" placeholder="mm" name="thigh" required>
               </div>
             </div>
             <button class="btn btn-info">Calculate</button>
         </form>
       </div>
+<!--Right side of page on large screen-->
       <div class="col-lg-9">
-        <h1>Results</h1>
+        <h2>Results</h2>
+        <div class="row">
+<!--Divide right side into 2 columns-->
+          <div class="col-lg-6">
+<!--Graph on measurement sites in first column-->
+            <div>
+              <embed type="image/svg+xml" src={{sites_date_chart_data|safe}} />
+            </div>
+          </div>
+<!--Graph on body masses in second column-->
+          <div class="col-lg-6">
+            <div>
+              <embed type="image/svg+xml" src={{mass_date_chart_data|safe}} />
+            </div>
+          </div>
+        </div>
+<!--Table containing data from lists in application.py-->
         <div class="table-responsive-xl">
           <table class="table table-sm table-striped">
             <thead>
@@ -111,6 +132,8 @@
               </tr>
             </thead>
             <tbody>
+<!--Jinja command. A for loop. Iterates over entries in the calculation lists
+    and assigns each value from each sublist to a field in the table-->
               {% for calculation in calculations[::-1] %}
                 <tr>
                   <td>{{ calculation[0] }}</td>
